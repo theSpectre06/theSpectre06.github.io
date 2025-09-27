@@ -12,11 +12,10 @@
     <!-- Custom Styles -->
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif; /* Changed from 'martian mono' for wider compatibility */
             background-color: #000000; /* Pure Black */
             color: #e2e8f0; /* Slate-200 */
-            /* Remove custom SVG cursor here, as we're using a JS-driven trail */
-            cursor: none; /* Hide default cursor */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%232dd4bf"><circle cx="12" cy="12" r="5"/></svg>') 12 12, auto; /* Custom cursor */
         }
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Playfair Display', serif;
@@ -81,23 +80,6 @@
         .btn-glow:hover::before {
             width: 200%;
             height: 200%;
-        }
-
-        /* Cursor Trail Styles */
-        .cursor-trail {
-            position: fixed;
-            pointer-events: none; /* Allows clicks to pass through */
-            border-radius: 50%;
-            background-color: rgba(45, 212, 191, 0.6); /* Teal-400 with opacity */
-            transform: translate(-50%, -50%); /* Center the element on the cursor */
-            opacity: 0; /* Start invisible */
-            animation: fadeOutTrail 1s forwards; /* Fade out animation */
-            z-index: 9999; /* Ensure it's on top */
-        }
-
-        @keyframes fadeOutTrail {
-            from { opacity: 0.6; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.5); }
         }
     </style>
 </head>
@@ -351,36 +333,6 @@
             }
         };
 
-        // --- Cursor Trail Effect ---
-        let trailCount = 0;
-        const maxTrails = 20; // Maximum number of trail elements
-        const trailSize = 10; // Size of each trail element in pixels
-
-        document.addEventListener('mousemove', (e) => {
-            const trail = document.createElement('div');
-            trail.classList.add('cursor-trail');
-            trail.style.left = `${e.clientX}px`;
-            trail.style.top = `${e.clientY}px`;
-            trail.style.width = `${trailSize}px`;
-            trail.style.height = `${trailSize}px`;
-            document.body.appendChild(trail);
-
-            // Remove old trails if we exceed maxTrails
-            if (trailCount >= maxTrails) {
-                const oldestTrail = document.querySelector('.cursor-trail');
-                if (oldestTrail) {
-                    oldestTrail.remove();
-                }
-            } else {
-                trailCount++;
-            }
-
-            // Remove the trail after its animation finishes
-            trail.addEventListener('animationend', () => {
-                trail.remove();
-                trailCount--;
-            });
-        });
     </script>
 </body>
 </html>
